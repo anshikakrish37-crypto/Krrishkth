@@ -24,10 +24,12 @@ canvas{display:block;position:fixed;inset:0;width:100%;height:100%}
 #panel p{margin:0;max-width:300px;line-height:1.5;font-size:16px}
 #go{margin-top:8px;border:0;border-radius:40px;padding:14px 38px;font-size:20px;font-weight:700;background:var(--accent);color:#2a1500;cursor:pointer}
 #go:active{transform:scale(.96)}
+#mute{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));width:46px;height:46px;border:0;border-radius:50%;background:rgba(255,243,220,.14);color:var(--ink);font-size:22px;cursor:pointer}
 </style>
 </head>
 <body>
 <div id="hud"><span>Score <b id="sc">0</b></span><span>Coins <b id="co">0</b></span></div>
+<button id="mute" aria-label="Sound">🔊</button>
 <div id="panel">
   <h1 id="t">Krrish kth</h1>
   <p id="m">Raat ki sadak pe daud lagao. Laal blocks se bacho, sone ke sikke batoro.</p>
@@ -69,6 +71,72 @@ var LANES=[-2,0,2];
 var obs=[],coins=[],lane=1,vy=0,speed,score,coinCount,dist,alive=false,nextSpawn,best=0;
 try{best=+localStorage.getItem('raftaar_best')||0}catch(e){}
 
+var AC=null,master=null,noiseBuf=null,muted=false,step=0,nextT=0,timer=null,combo=0,lastCoin=0;
+function initAudio(){
+  if(AC)return;
+  try{
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    master=AC.createGain();master.gain.value=muted?0:.5;master.connect(AC.destination);
+    var n=AC.sampleRate,b=AC.createBuffer(1,n,AC.sampleRate),d=b.getChannelData(0);
+    for(var i=0;i<n;i++)d[i]=Math.random()*2-1;
+    noiseBuf=b;
+  }catch(e){AC=null}
+}
+function tone(f,t,dur,type,vol,f2){
+  var o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,t);
+  if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(vol,t+.01);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+.05);
+}
+function noise(t,dur,vol,hp){
+  var s=AC.createBufferSource(),g=AC.createGain(),f=AC.createBiquadFilter();
+  s.buffer=noiseBuf;f.type='highpass';f.frequency.value=hp;
+  g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+dur+.05);
+}
+function sfx(k,a){
+  if(!AC||muted)return;
+  var t=AC.currentTime;
+  if(k==='coin'){var m=Math.pow(1.1225,(a||0)%8);tone(988*m,t,.09,'square',.1);tone(1319*m,t+.08,.2,'square',.1)}
+  else if(k==='jump'){tone(260,t,.22,'sine',.35,720)}
+  else if(k==='move'){noise(t,.08,.12,1500)}
+  else if(k==='crash'){noise(t,.6,.5,200);tone(180,t,.7,'sawtooth',.4,35)}
+  else if(k==='start'){[523,659,784,1047].forEach(function(f,i){tone(f,t+i*.08,.15,'triangle',.25)})}
+}
+var ROOT=[110,87.31,130.81,98];
+var ARP=[[440,523.25,659.25,880],[349.23,440,523.25,698.46],[523.25,659.25,784,1046.5],[392,493.88,587.33,784]];
+function playStep(s,t){
+  var c=Math.floor(s/16)%4;
+  if(s%4===0)tone(150,t,.15,'sine',.55,40);
+  if(s%4===2)noise(t,.04,.1,7000);
+  if(s%2===0){
+    tone(ROOT[c],t,.2,'triangle',.4);
+    tone(ARP[c][(s/2)%4],t,.13,'square',.05);
+  }
+}
+function sched(){
+  if(!AC||!alive||muted)return;
+  while(nextT<AC.currentTime+.15){
+    playStep(step,nextT);
+    var bpm=118+Math.min(42,(speed-14)*5);
+    nextT+=60/bpm/4;step++;
+  }
+}
+function startMusic(){if(!AC)return;step=0;nextT=AC.currentTime+.05;clearInterval(timer);timer=setInterval(sched,50)}
+function stopMusic(){clearInterval(timer)}
+$('mute').addEventListener('click',function(){
+  muted=!muted;this.textContent=muted?'🔇':'🔊';
+  if(master)master.gain.value=muted?0:.5;
+  if(!muted&&AC&&alive)nextT=AC.currentTime+.05;
+});
+document.addEventListener('visibilitychange',function(){
+  if(!AC)return;
+  if(document.hidden)AC.suspend();else{AC.resume();if(alive)nextT=AC.currentTime+.05}
+});
+
 function spawn(){
   var free=Math.floor(Math.random()*3);
   for(var l=0;l<3;l++){
@@ -78,9 +146,9 @@ function spawn(){
 }
 function clear(arr){arr.forEach(function(m){scene.remove(m)});arr.length=0}
 function reset(){clear(obs);clear(coins);lane=1;vy=0;speed=14;score=0;coinCount=0;dist=0;nextSpawn=0;player.position.set(0,.5,0);player.rotation.set(0,0,0)}
-function start(){reset();alive=true;$('panel').style.display='none'}
+function start(){reset();alive=true;$('panel').style.display='none';initAudio();if(AC&&AC.state==='suspended')AC.resume();sfx('start');startMusic()}
 function over(){
-  alive=false;
+  alive=false;stopMusic();sfx('crash');try{navigator.vibrate&&navigator.vibrate(200)}catch(e){}
   if(score>best){best=score;try{localStorage.setItem('raftaar_best',best)}catch(e){}}
   $('t').textContent='GAME OVER';
   $('m').textContent='Score '+score+' | Sikke '+coinCount+' | Best '+best;
@@ -89,18 +157,18 @@ function over(){
 }
 $('go').addEventListener('click',start);
 
-function left(){if(alive&&lane>0)lane--}
-function right(){if(alive&&lane<2)lane++}
-function jump(){if(alive&&player.position.y<=.51)vy=9}
+function left(){if(alive&&lane>0){lane--;sfx('move')}}
+function right(){if(alive&&lane<2){lane++;sfx('move')}}
+function jump(){if(alive&&player.position.y<=.51){vy=9;sfx('jump')}}
 addEventListener('keydown',function(e){
   if(e.key==='ArrowLeft'||e.key==='a')left();
   else if(e.key==='ArrowRight'||e.key==='d')right();
   else if(e.key==='ArrowUp'||e.key===' '||e.key==='w')jump();
 });
 var sx=0,sy=0;
-addEventListener('touchstart',function(e){if(e.target.id==='go')return;sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+addEventListener('touchstart',function(e){if(e.target.id==='go'||e.target.id==='mute')return;sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
 addEventListener('touchend',function(e){
-  if(e.target.id==='go')return;
+  if(e.target.id==='go'||e.target.id==='mute')return;
   var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
   if(Math.abs(dx)>30||Math.abs(dy)>30){
     if(Math.abs(dx)>Math.abs(dy)){dx<0?left():right()}else if(dy<0)jump();
@@ -129,7 +197,7 @@ function loop(now){
     }
     for(var j=coins.length-1;j>=0;j--){
       var c=coins[j];c.position.z+=speed*dt;c.rotation.y+=dt*5;
-      if(Math.abs(c.position.z)<1&&Math.abs(c.position.x-player.position.x)<1&&Math.abs(c.position.y-player.position.y)<1.2){scene.remove(c);coins.splice(j,1);coinCount++;score+=10;dist+=20;continue}
+      if(Math.abs(c.position.z)<1&&Math.abs(c.position.x-player.position.x)<1&&Math.abs(c.position.y-player.position.y)<1.2){scene.remove(c);coins.splice(j,1);coinCount++;score+=10;dist+=20;combo=(now-lastCoin<900)?combo+1:0;lastCoin=now;sfx('coin',combo);continue}
       if(c.position.z>8){scene.remove(c);coins.splice(j,1)}
     }
     dashes.forEach(function(d){d.position.z+=speed*dt;if(d.position.z>8)d.position.z-=180});
