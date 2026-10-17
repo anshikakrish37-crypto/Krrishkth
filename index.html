@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Krrish kth</title>
+<meta name="application-name" content="Krrish kth">
+<meta name="apple-mobile-web-app-title" content="Krrish kth">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#120d2b">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEsklEQVR42u3dy5HbMBCEYSTgi9NQ1YbtTJzKpmEnsAcSmEf34K/q+0iYr0CJBIH1+9eHkB+zGAICDgIOAg4CDgIOAg4CDgIOAg4CDkLAQcBBwEHAQcBBwEHAQcBhlK/vv+cBBxqwMhFHAYhLoCxMoGQsDikTw5QsWEBkFA4jFtZEFiwgYo9jAAs7IgsWELHEEd6Mf38+57mHyBovIwRENhRw1LFIBZEHBRy5MlpYBBIBR7yMdhOBSsAxmcUYIstXhjiLcyLg+MxmcUjkahyXsDghcimOC2V4+VgWMsaw2CZyEQ5kWPhYyMCHCg5YHBIZiwMZXj4WMvDRjCNWxsYHqOzxSXUpH1o4tkdfB8d59btwhF9NZHFEVRfxsexkyOKIra7gY9nJ0MSRUb3dRz+O8E7U48irPhZH3r9WKRzZ1Rt9LK8LihqOguqNF5dlN23o4CirPgpH9m1QBRzF1Vt89OCobEwGjpbqE3AUPD3pxdFVvX7yWHbTRi+OXpfeOGqeuHZ1SOG3TqUPcJj9RXLFUbZQo75PUrfdynyAw+9uvR+OyvVdld3SfAJc4wMclgtHnHAULwut6Zn4YsQCH+CwlDEHR+9zjY3O6ct44kMCR/2rBqnNc5FRMHmAw1XGBBy9CyletdBLRsGVZdlNG0lddJSRPXksu2kjo5GmMrInD3B4ywBHYjvdZeji6HpfPqqjA2Sk/uxYdtNGVFNnyEidPC7FMUkGOCJbO0wGOMK6O0+GIo7GrZu2GzxSRp6Pi3AMlgGOIxyzZYCjFMewnQjBca8McBThGLmHKTjulQGOdByDdz8Gx70ywJGIY/y+6eC4VwY4UnBccuICOJg5wMFvDnDwbwUc3OcAB3dIwcGzFXDwVBYcrOcABzhYCcYaUtaQgoPV5+04eG+F91Z444033nhXlndlwcFb9uzPwf4c3TjY2YedfdgTjD3B2E2Q3QTZh5R9SNnBmB2M2fucvc/BwakJljg4b4XzVjipiZOawGHiwwYHp0NyOiTnynKuLCdSa/vguHKtbkn5sMRR5qOlVSI+ymSAw8+HMY4aH41N6vVRKaMHx7mP3g51VX8ysOo4CiaP9uldE0d4H3twHPpQuPYXV6+fNrJwZPsQ+eNQVr1FRjOObR86dx0Kqj8cSSccqZOH1C0pBRxJHUzEkedD7X52XvVGGRI4NnwIPgzLqN54QanAkeRD80lpbPV2GRU4MnzILrOIqq4gowhHuA/lNVrn1UVkyOF46EN8Ad9J9ecDNQdHuI+RkZJRigMfXjKqceDDSEYDjlc+biDyajSKO9WAAx8WMtpw4ENfRieOtz4mEXn7xbsa1InjTh8uMvpxbPjwJbLxTXtb049jz4cXkb0v2N4XCRzbPvSJbH8vhaao4JhHxJqFIo4THyJKDj+/VC/kcJz76CJy/rHVGqGII4pIAZSoD6nZAl0cgT5ioYR/Ktnxl8aRREQn4iNvgGMkEYsxt8ExhojRaJvhsCZiN86WOOyImI6wMQ4LItZja49DU8mMIZ2DQ0HJsJEciKMYyuDRG44jw8o9w3UXDgIOAg4CDgIOAg4CDgIOAg4CDkLAQcBBwEHAQcBBwEHAQcBBJuY/5ouqaTf7PhsAAAAASUVORK5CYII=">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEsklEQVR42u3dy5HbMBCEYSTgi9NQ1YbtTJzKpmEnsAcSmEf34K/q+0iYr0CJBIH1+9eHkB+zGAICDgIOAg4CDgIOAg4CDgIOAg4CDkLAQcBBwEHAQcBBwEHAQcBhlK/vv+cBBxqwMhFHAYhLoCxMoGQsDikTw5QsWEBkFA4jFtZEFiwgYo9jAAs7IgsWELHEEd6Mf38+57mHyBovIwRENhRw1LFIBZEHBRy5MlpYBBIBR7yMdhOBSsAxmcUYIstXhjiLcyLg+MxmcUjkahyXsDghcimOC2V4+VgWMsaw2CZyEQ5kWPhYyMCHCg5YHBIZiwMZXj4WMvDRjCNWxsYHqOzxSXUpH1o4tkdfB8d59btwhF9NZHFEVRfxsexkyOKIra7gY9nJ0MSRUb3dRz+O8E7U48irPhZH3r9WKRzZ1Rt9LK8LihqOguqNF5dlN23o4CirPgpH9m1QBRzF1Vt89OCobEwGjpbqE3AUPD3pxdFVvX7yWHbTRi+OXpfeOGqeuHZ1SOG3TqUPcJj9RXLFUbZQo75PUrfdynyAw+9uvR+OyvVdld3SfAJc4wMclgtHnHAULwut6Zn4YsQCH+CwlDEHR+9zjY3O6ct44kMCR/2rBqnNc5FRMHmAw1XGBBy9CyletdBLRsGVZdlNG0lddJSRPXksu2kjo5GmMrInD3B4ywBHYjvdZeji6HpfPqqjA2Sk/uxYdtNGVFNnyEidPC7FMUkGOCJbO0wGOMK6O0+GIo7GrZu2GzxSRp6Pi3AMlgGOIxyzZYCjFMewnQjBca8McBThGLmHKTjulQGOdByDdz8Gx70ywJGIY/y+6eC4VwY4UnBccuICOJg5wMFvDnDwbwUc3OcAB3dIwcGzFXDwVBYcrOcABzhYCcYaUtaQgoPV5+04eG+F91Z444033nhXlndlwcFb9uzPwf4c3TjY2YedfdgTjD3B2E2Q3QTZh5R9SNnBmB2M2fucvc/BwakJljg4b4XzVjipiZOawGHiwwYHp0NyOiTnynKuLCdSa/vguHKtbkn5sMRR5qOlVSI+ymSAw8+HMY4aH41N6vVRKaMHx7mP3g51VX8ysOo4CiaP9uldE0d4H3twHPpQuPYXV6+fNrJwZPsQ+eNQVr1FRjOObR86dx0Kqj8cSSccqZOH1C0pBRxJHUzEkedD7X52XvVGGRI4NnwIPgzLqN54QanAkeRD80lpbPV2GRU4MnzILrOIqq4gowhHuA/lNVrn1UVkyOF46EN8Ad9J9ecDNQdHuI+RkZJRigMfXjKqceDDSEYDjlc+biDyajSKO9WAAx8WMtpw4ENfRieOtz4mEXn7xbsa1InjTh8uMvpxbPjwJbLxTXtb049jz4cXkb0v2N4XCRzbPvSJbH8vhaao4JhHxJqFIo4THyJKDj+/VC/kcJz76CJy/rHVGqGII4pIAZSoD6nZAl0cgT5ioYR/Ktnxl8aRREQn4iNvgGMkEYsxt8ExhojRaJvhsCZiN86WOOyImI6wMQ4LItZja49DU8mMIZ2DQ0HJsJEciKMYyuDRG44jw8o9w3UXDgIOAg4CDgIOAg4CDgIOAg4CDkLAQcBBwEHAQcBBwEHAQcBBJuY/5ouqaTf7PhsAAAAASUVORK5CYII=">
+<style>
+:root{--bg:#120d2b;--ink:#fff3dc;--accent:#ffa62b;--hot:#ff3d5a;--teal:#2ee6c5;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:'Trebuchet MS',system-ui,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%}
+#hud{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);display:flex;justify-content:space-between;padding:14px 18px;font-size:20px;font-weight:700;pointer-events:none}
+#hud b{color:var(--accent)}
+#panel{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(18,13,43,.78);text-align:center;padding:24px}
+#panel h1{margin:0;font-size:44px;letter-spacing:1px;color:var(--accent);text-shadow:0 0 24px rgba(255,166,43,.55)}
+#panel p{margin:0;max-width:300px;line-height:1.5;font-size:16px}
+#go{margin-top:8px;border:0;border-radius:40px;padding:14px 38px;font-size:20px;font-weight:700;background:var(--accent);color:#2a1500;cursor:pointer}
+#go:active{transform:scale(.96)}
+</style>
+</head>
+<body>
+<div id="hud"><span>Score <b id="sc">0</b></span><span>Coins <b id="co">0</b></span></div>
+<div id="panel">
+  <h1 id="t">Krrish kth</h1>
+  <p id="m">Raat ki sadak pe daud lagao. Laal blocks se bacho, sone ke sikke batoro.</p>
+  <p>Left / right tap ya swipe karo. Beech me tap ya upar swipe = jump.</p>
+  <button id="go">Start</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+document.body.insertBefore(renderer.domElement,document.body.firstChild);
+var scene=new THREE.Scene();
+scene.background=new THREE.Color(0x120d2b);
+scene.fog=new THREE.Fog(0x120d2b,25,85);
+var cam=new THREE.PerspectiveCamera(65,1,.1,200);
+cam.position.set(0,3.6,6.5);cam.lookAt(0,1,-8);
+function resize(){renderer.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()}
+addEventListener('resize',resize);resize();
+
+scene.add(new THREE.AmbientLight(0x8877cc,.7));
+var sun=new THREE.DirectionalLight(0xffd9a0,.9);sun.position.set(3,10,5);scene.add(sun);
+
+var road=new THREE.Mesh(new THREE.PlaneGeometry(7,300),new THREE.MeshLambertMaterial({color:0x1d1745}));
+road.rotation.x=-Math.PI/2;road.position.z=-120;scene.add(road);
+var edgeMat=new THREE.MeshBasicMaterial({color:0x2ee6c5});
+[-3.5,3.5].forEach(function(x){var e=new THREE.Mesh(new THREE.BoxGeometry(.15,.15,300),edgeMat);e.position.set(x,.08,-120);scene.add(e)});
+var dashMat=new THREE.MeshBasicMaterial({color:0x5a4fa0});
+var dashes=[];
+for(var i=0;i<30;i++){[-1,1].forEach(function(s){var d=new THREE.Mesh(new THREE.BoxGeometry(.1,.02,2),dashMat);d.position.set(s,.02,-i*6);scene.add(d);dashes.push(d)})}
+
+var player=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshLambertMaterial({color:0x2ee6c5,emissive:0x0c5a4c}));
+player.position.y=.5;scene.add(player);
+
+var obGeo=new THREE.BoxGeometry(1.5,1,1.5),obMat=new THREE.MeshLambertMaterial({color:0xff3d5a,emissive:0x6a0f20});
+var coinGeo=new THREE.CylinderGeometry(.4,.4,.1,16),coinMat=new THREE.MeshLambertMaterial({color:0xffa62b,emissive:0x7a4a00});
+var LANES=[-2,0,2];
+var obs=[],coins=[],lane=1,vy=0,speed,score,coinCount,dist,alive=false,nextSpawn,best=0;
+try{best=+localStorage.getItem('raftaar_best')||0}catch(e){}
+
+function spawn(){
+  var free=Math.floor(Math.random()*3);
+  for(var l=0;l<3;l++){
+    if(l!==free&&Math.random()<.7){var o=new THREE.Mesh(obGeo,obMat);o.position.set(LANES[l],.5,-85);scene.add(o);obs.push(o)}
+  }
+  if(Math.random()<.7){for(var k=0;k<4;k++){var c=new THREE.Mesh(coinGeo,coinMat);c.rotation.z=Math.PI/2;c.position.set(LANES[free],.9,-85-k*2.2);scene.add(c);coins.push(c)}}
+}
+function clear(arr){arr.forEach(function(m){scene.remove(m)});arr.length=0}
+function reset(){clear(obs);clear(coins);lane=1;vy=0;speed=14;score=0;coinCount=0;dist=0;nextSpawn=0;player.position.set(0,.5,0);player.rotation.set(0,0,0)}
+function start(){reset();alive=true;$('panel').style.display='none'}
+function over(){
+  alive=false;
+  if(score>best){best=score;try{localStorage.setItem('raftaar_best',best)}catch(e){}}
+  $('t').textContent='GAME OVER';
+  $('m').textContent='Score '+score+' | Sikke '+coinCount+' | Best '+best;
+  $('go').textContent='Dobara khelo';
+  $('panel').style.display='flex';
+}
+$('go').addEventListener('click',start);
+
+function left(){if(alive&&lane>0)lane--}
+function right(){if(alive&&lane<2)lane++}
+function jump(){if(alive&&player.position.y<=.51)vy=9}
+addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft'||e.key==='a')left();
+  else if(e.key==='ArrowRight'||e.key==='d')right();
+  else if(e.key==='ArrowUp'||e.key===' '||e.key==='w')jump();
+});
+var sx=0,sy=0;
+addEventListener('touchstart',function(e){if(e.target.id==='go')return;sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',function(e){
+  if(e.target.id==='go')return;
+  var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+  if(Math.abs(dx)>30||Math.abs(dy)>30){
+    if(Math.abs(dx)>Math.abs(dy)){dx<0?left():right()}else if(dy<0)jump();
+  }else{
+    var f=t.clientX/innerWidth;
+    if(f<.33)left();else if(f>.66)right();else jump();
+  }
+},{passive:true});
+
+var last=performance.now();
+function loop(now){
+  requestAnimationFrame(loop);
+  var dt=Math.min((now-last)/1000,.05);last=now;
+  if(alive){
+    speed+=dt*.25;dist+=speed*dt;score=Math.floor(dist/2);
+    nextSpawn-=speed*dt;
+    if(nextSpawn<=0){spawn();nextSpawn=Math.max(12,24-speed*.4)}
+    player.position.x+=(LANES[lane]-player.position.x)*Math.min(1,dt*14);
+    vy-=24*dt;player.position.y+=vy*dt;
+    if(player.position.y<=.5){player.position.y=.5;vy=0}
+    player.rotation.x-=dt*speed*.3;
+    for(var i=obs.length-1;i>=0;i--){
+      var o=obs[i];o.position.z+=speed*dt;
+      if(Math.abs(o.position.z)<1.1&&Math.abs(o.position.x-player.position.x)<1.1&&player.position.y<1.1){over();break}
+      if(o.position.z>8){scene.remove(o);obs.splice(i,1)}
+    }
+    for(var j=coins.length-1;j>=0;j--){
+      var c=coins[j];c.position.z+=speed*dt;c.rotation.y+=dt*5;
+      if(Math.abs(c.position.z)<1&&Math.abs(c.position.x-player.position.x)<1&&Math.abs(c.position.y-player.position.y)<1.2){scene.remove(c);coins.splice(j,1);coinCount++;score+=10;dist+=20;continue}
+      if(c.position.z>8){scene.remove(c);coins.splice(j,1)}
+    }
+    dashes.forEach(function(d){d.position.z+=speed*dt;if(d.position.z>8)d.position.z-=180});
+    $('sc').textContent=score;$('co').textContent=coinCount;
+  }else{
+    player.rotation.y+=dt;
+  }
+  renderer.render(scene,cam);
+}
+reset();requestAnimationFrame(loop);
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}</script>
+</body>
+</html>
